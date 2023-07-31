@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <title>Arif Database</title>
+    <style>
+        body {
+          background-color: white;
+          color: #1c418c;
+          transition: background-color 0.5s, color 0.5s;
+        }
+        
+        input[type="checkbox"] {
+          display: block;
+          margin-left: 10px;
+        }
+        
+        .form-group {
+          display: flex;
+          align-items: center;
+        }
+    
+        .form-group label {
+          display: block;
+          margin-left: 20px;
+          text-align: center;
+          color: white;
+          font-weight: bold;
+        }
+    
+        .dark-mode {
+          background-color: #333;
+          color: white;
+        }
+        
+        .sidebar-container {
+            width: 275px;
+            background-color: #34558B;
+            height: 100vh;
+            position: fixed;
+            display: none;
+        }
+        
+        .sidebar-container h1{
+            text-align: center;
+            color: white;
+            font-size: 36px;
+            margin-top: 20px;
+            font-family: "Montserrat", sans-serif;
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
+        
+        .sidebar-container a {
+            display: block;
+            padding: 10px;
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            font-family: "Montserrat", sans-serif;
+        }
+        
+        .sidebar-container a:hover {
+            background-color: white;
+            color: #015964;
+        }
+        
+        .content-container h2{
+            text-align: center;
+        }
+        
+        h1 {
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .sidebar-container h2 {
+          position: absolute;
+          bottom: 10px;
+          left: 50%;
+          transform: translateX(-50%);
+          text-align: center;
+          color: white;
+          font-size: 10px;
+          font-family: "Montserrat", sans-serif;
+          width: 90%;
+          margin-bottom:10px;
+        }
+        
+        .refresh-buttons {
+            display: flex;
+            justify-content: flex-start;
+            margin-bottom: 10px;
+        }
+
+        .refresh-buttons button {
+            margin-right: 5px;
+            font-size: 20px;
+            margin-top: 10px;
+            margin-left: 10px;
+        }
+        
+        .export-buttons {
+            display: flex;
+            justify-content: flex-start;
+            margin-bottom: 10px;
+        }
+
+        .export-buttons button {
+            margin-right: 5px;
+            font-size: 20px;
+            margin-left: 10px;
+        }
+
+        .search-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .search-container input {
+            margin-right: 5px;
+            font-family: Arial, sans-serif;
+            font-size: 20px;
+            margin-left: 10px;
+            border: 2px solid #cdcdcd;
+        }
+        
+        .search-container button {
+            margin-right: 5px;
+            font-family: Arial, sans-serif;
+            font-size: 20px;
+            border: 1px solid #000;
+        }
+        
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 10px;
+            margin-left: 10px;
+        }
+        
+        th, td {
+            padding: 8px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+            border: 1px solid black;
+        }
+        
+        th {
+            background-color: #f2f2f2;
+            color: black;
+        }
+        
+        .pagination {
+            margin-top: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .pagination button {
+            margin: 0 5px;
+        }
+        
+        canvas {
+            width: 100%;
+            margin: 20px auto;
+            display: block;
+            margin: 0 auto;
+        }
+        
+        #custom-image {
+            position: fixed;
+            width: 78%;
+            height: 78%;
+            object-fit: cover;
+            z-index: -1;
+        }
+        
+        .image-container {
+          text-align: center; /* Mengatur gambar menjadi berada di tengah secara horizontal */
+          margin-top: 150px;
+          width: 100px; /* Sesuaikan dengan lebar yang diinginkan */
+          height: 100px; /* Sesuaikan dengan tinggi yang diinginkan */
+          object-fit: cover; /* Mengatur agar gambar sesuai proporsi dan diisi sepenuhnya */
+        }
+        
+        /* Tambahan: tampilan login */
+        .login-container {
+            margin: 0 auto;
+            width: 300px;
+            margin-top: 10px;
+        }
+        
+        .login-container input[type="text"],
+        .login-container input[type="password"] {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .login-container input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #015964;
+            color: white;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+        }
+        
+        /* Tambahan: tampilan konten home */
+        .content-container {
+            margin-left: 270px; /* Lebar sidebar + margin */
+            padding: 20px;
+        }
+        
+        .content-container h2 {
+            color: #1a8ae5;
+            font-family: "Montserrat", sans-serif;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        
+        /* Responsive Styles */
+        @media only screen and (max-width: 600px) {
+        
+        /* Export Buttons */
+        .export-buttons {
+            justify-content: center;
+        }
+            
+        .export-buttons button {
+            margin-right: 5px;
+            font-family: Arial, sans-serif;
+            font-size: 19px;
+            background-color: blue;
+        }
+        
+        /* Refresh Buttons */
+        .refresh-buttons {
+            justify-content: center;
+        }
+            
+        .refresh-buttons button {
+            margin-right: 5px;
+            font-family: Arial, sans-serif;
+            font-size: 18px;
+            background-color: red;
+                
+        /* Search Container */
+        .search-container {
+            margin-left: 5px;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .search-container input,
+        .search-container button {
+            margin-bottom: 5px;
+            width: 100%;
+        }
+        
+        .search-container button {
+            font-size: 16px;
+        }
+            
+        /* Chart */
+        canvas {
+            margin-left: 5px;
+            margin-right: 5px;
+        }
+        }
+        }
+        
+        /* Tambahan: tampilan konten Casting Machine */
+        #casting-machine-content {
+            display: none;
+        }
+        
+        /* Tambahan: tampilan konten Weighing Scale */
+        #weighing-scale-content {
+            display: none;
+        }
+        
+        /* Tambahan: tampilan konten Contact */
+        #contact-content {
+            display: none;
+        }
+        
+    </style>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+</head>
+<body>
+    <!-- Tambahan: tampilan login -->
+    <div class="login-container">
+        <img id="image-container" src="https://th.bing.com/th/id/OIP.vvyBVEy9BgKIGyhNPrOy4gHaHa?w=202&h=203&c=7&r=0&o=5&pid=1.7" style="margin-top: 150px; margin-left: 100px; width: 100px; height: 100px; object-fit: cover;">
+        <h1>Login</h1>
+        <form id="login-form">
+            <input type="text" placeholder="Username" id="username-input" required>
+            <input type="password" placeholder="Password" id="password-input" required>
+            <input type="submit" value="Login">
+        </form>
+    </div>
+    
+    <!-- Konten setelah login -->
+    <div class="sidebar-container">
+        <h1>Arif Database</h1>
+        <ul>
+            <li><a href="#" onclick="showHome()">Home</a></li>
+            <li><a href="#" onclick="showCastingMachine()">Casting Machine</a></li>
+            <li><a href="#" onclick="showWeighingScale()">Weighing Scale</a></li>
+            <li><a href="#" onclick="showContact()">Contact</a></li>
+        </ul>
+        <div class="form-group">
+            <label for="darkModeToggle">Dark Mode</label>
+            <input type="checkbox" id="darkModeToggle">
+        </div>
+        <h2>Designing and built by Alfino Suhendra and get help from chatgpt</h2>
+    </div>
+    
+    <!-- Tambahan: tampilan konten home -->
+    <div class="content-container" id="home-content" style="display:none">
+        <h2>Home</h2>
+        <p>Ini adalah halaman utama setelah login. Di sini Anda dapat menampilkan informasi penting, grafik, tabel, atau fitur lainnya yang sesuai dengan aplikasi yang Anda bangun.</p>
+        <img id="custom-image" src="https://images.unsplash.com/photo-1624594593821-c6fdf3ea69ce?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1400&q=80">
+    </div>
+    
+    <!-- Tambahan: tampilan konten Casting Machine -->
+    <div class="content-container" id="casting-machine-content" style="display:none">
+        <h2>Casting Machine</h2>
+        <div class="refresh-buttons">
+            <button onclick="refreshData()" class="btn btn-primary custom-button font-montserrat">Refresh</button>
+        </div>
+        <div class="export-buttons">
+            <button onclick="exportTableToCSV()" class="btn btn-primary custom-button font-montserrat">Export to CSV</button>
+        </div>
+        <div class="search-container">
+          <div class="search-input-container">
+            <input type="text" id="search-input" placeholder="Search...">
+            <button onclick="searchTable()">Search</button>
+          </div>
+        </div>
+
+
+        <table id="data-table">
+            <tr>
+                <th style="text-align: center;">No</th>
+                <th style="text-align: center;">Date</th>
+                <th style="text-align: center;">Time</th>
+                <th style="text-align: center;">Cycle (second)</th>
+            </tr>
+        </table>
+        
+        <div id="pagination" class="pagination"></div>
+
+        <canvas id="chart"></canvas>
+    </div>
+    
+    <!-- Tambahan: tampilan konten Weighing Scale -->
+    <div class="content-container" id="weighing-scale-content" style="display:none">
+        <h2>Weighing Scale</h2>
+        <p>Ini adalah halaman Weighing Scale. Di sini Anda dapat menampilkan informasi, grafik, atau fitur lain yang terkait dengan Weighing Scale.</p>
+    </div>
+    
+    <!-- Tambahan: tampilan konten Contact -->
+    <div class="content-container" id="contact-content" style="display:none">
+        <h2>Contact</h2>
+        <p>Contact me:</p>
+        <ul>
+            <li>Email    : alfinosuhendraa@gmail.com</li>
+            <li>Telepon  : +6287718238976</li>
+            <li>LinkedIn : www.linkedin.com/in/alfinosuhendra</li>
+            <li>Website  : alfinosuhendra--alfinosuhendra.repl.co</li>
+        </ul>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        var data; // Variabel untuk menyimpan data dari server
+        var currentPage = 1; // Halaman saat ini
+        var rowsPerPage = 25; // Jumlah baris per halaman
+        var myChart; // Variabel untuk menyimpan instance Chart
+        
+        // Tambahan: logika login
+        document.getElementById("login-form").addEventListener("submit", function(e) {
+            e.preventDefault(); // Mencegah form submit
+            var username = document.getElementById("username-input").value;
+            var password = document.getElementById("password-input").value;
+
+            // Contoh logika login sederhana
+            if (username === "admin" && password === "admin") {
+                document.getElementsByClassName("login-container")[0].style.display = "none"; // Sembunyikan form login
+                document.getElementsByClassName("sidebar-container")[0].style.display = "block"; // Tampilkan sidebar setelahlogin
+                showHome(); // Tampilkan konten home sebagai konten awal setelah login
+            } else {
+                alert("Username or password is incorrect"); // Tampilkan pesan kesalahan jika login gagal
+            }
+        });
+
+        // Tambahan: fungsi untuk menampilkan konten home
+        function showHome() {
+            document.getElementById("home-content").style.display = "block";
+            document.getElementById("casting-machine-content").style.display = "none";
+            document.getElementById("weighing-scale-content").style.display = "none";
+            document.getElementById("contact-content").style.display = "none";
+        }
+
+        // Tambahan: fungsi untuk menampilkan konten Casting Machine
+        function showCastingMachine() {
+            document.getElementById("home-content").style.display = "none";
+            document.getElementById("casting-machine-content").style.display = "block";
+            document.getElementById("weighing-scale-content").style.display = "none";
+            document.getElementById("contact-content").style.display = "none";
+            // Memuat data saat pertama kali halaman dimuat
+            fetchData();
+        }
+
+        // Tambahan: fungsi untuk menampilkan konten Weighing Scale
+        function showWeighingScale() {
+            document.getElementById("home-content").style.display = "none";
+            document.getElementById("casting-machine-content").style.display = "none";
+            document.getElementById("weighing-scale-content").style.display = "block";
+            document.getElementById("contact-content").style.display = "none";
+        }
+
+        // Tambahan: fungsi untuk menampilkan konten Contact
+        function showContact() {
+            document.getElementById("home-content").style.display = "none";
+            document.getElementById("casting-machine-content").style.display = "none";
+            document.getElementById("weighing-scale-content").style.display = "none";
+            document.getElementById("contact-content").style.display = "block";
+        }
+        
+        // Fungsi untuk memperbarui tabel dan grafik dengan data terbaru
+        function refreshData() {
+            fetchData();
+        }
+        
+        // Menggunakan teknologi AJAX untuk mengambil data dari database
+        function fetchData() {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    data = JSON.parse(this.responseText);
+                    sortData(); // Menyortir data
+                    renderTable();
+                    renderPagination();
+                    renderChart();
+                }
+            };
+            xhttp.open("GET", "get-data.php", true);
+            xhttp.send();
+        }
+
+        
+        function sortData() {
+            data.sort(function(a, b) {
+                // Mengonversi tanggal dan waktu menjadi objek Date
+                var dateA = new Date(a.Date + ' ' + a.Time);
+                var dateB = new Date(b.Date + ' ' + b.Time);
+                
+                // Mengurutkan data secara menurun (dari yang terbaru ke yang terlama)
+                return dateB - dateA;
+            });
+        }
+
+
+        // Fungsi untuk mengisi tabel HTML dengan data
+        function populateTable() {
+            var table = document.getElementById("data-table");
+            var start = (currentPage - 1) * rowsPerPage;
+            var end = start + rowsPerPage;
+            var slicedData = data.slice(start, end);
+
+            // Menghapus baris yang ada sebelumnya
+            while (table.rows.length > 1) {
+                table.deleteRow(-1);
+            }
+
+            for (var i = 0; i < slicedData.length; i++) {
+                var row = table.insertRow(-1);
+                var noCell = row.insertCell(0);
+                var dateCell = row.insertCell(1);
+                var timeCell = row.insertCell(2);
+                var cycleCell = row.insertCell(3);
+
+                noCell.innerHTML = start + i + 1; // Menampilkan nomor urut
+                dateCell.innerHTML = slicedData[i].Date;
+                timeCell.innerHTML = slicedData[i].Time;
+                cycleCell.innerHTML = slicedData[i].Cycle_s;
+            }
+        }
+
+        // Fungsi untuk menggambar tautan halaman pada pagination
+        function renderPagination() {
+            var pagination = document.getElementById("pagination");
+            var totalPages = Math.ceil(data.length / rowsPerPage);
+            var maxVisiblePages = 5; // Jumlah maksimum tautan halaman yang ditampilkan
+            var startPage = 1;
+            var endPage = totalPages;
+        
+            if (totalPages > maxVisiblePages) {
+                var middlePage = Math.ceil(maxVisiblePages / 2);
+        
+                if (currentPage > middlePage) {
+                    startPage = currentPage - middlePage + 1;
+                    endPage = startPage + maxVisiblePages - 1;
+        
+                    if (endPage > totalPages) {
+                        endPage = totalPages;
+                    }
+                } else {
+                    endPage = maxVisiblePages;
+                }
+            }
+        
+            pagination.innerHTML = "";
+        
+            // Tautan ke halaman pertama
+            var firstButton = document.createElement("button");
+            firstButton.textContent = "<<";
+            firstButton.addEventListener("click", function () {
+                currentPage = 1;
+                renderTable();
+                renderPagination();
+            });
+            pagination.appendChild(firstButton);
+            
+            // Tautan halaman
+            for (var i = startPage; i <= endPage; i++) {
+                var button = document.createElement("button");
+                button.textContent = i;
+                button.addEventListener("click", function () {
+                    currentPage = parseInt(this.textContent);
+                    renderTable();
+                    renderPagination();
+                });
+        
+                if (i === currentPage) {
+                    button.disabled = true;
+                }
+        
+                pagination.appendChild(button);
+            }
+            
+            // Tautan ke halaman terakhir
+            var lastButton = document.createElement("button");
+            lastButton.textContent = ">>";
+            lastButton.addEventListener("click", function () {
+                currentPage = totalPages;
+                renderTable();
+                renderPagination();
+            });
+            pagination.appendChild(lastButton);
+        }
+
+
+
+        // Fungsi untuk mengekspor seluruh data dari variabel 'data' ke format CSV
+        function exportTableToCSV() {
+            var csvString = "";
+            
+            for (var i = 0; i < data.length; i++) {
+                var rowData = [
+                    i + 1,
+                    data[i].Date,
+                    data[i].Time,
+                    data[i].Cycle_s
+                ];
+
+                csvString += rowData.join(",") + "\n";
+            }
+
+            // Membuat tautan untuk mengunduh file CSV
+            var link = document.createElement("a");
+            link.href = "data:text/csv;charset=utf-8," + encodeURIComponent(csvString);
+            link.download = "Hsitory_Casting_Machine.csv";
+            link.style.display = "none";
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // Fungsi untuk memperbarui tabel dengan data terbaru
+        function refreshTable() {
+            var table = document.getElementById("data-table");
+            
+            while (table.rows.length > 1) {
+                table.deleteRow(-1);
+            }
+            
+            fetchData();
+        }
+
+        // Fungsi untuk mencari data sesuai dengan input pencarian
+        function searchTable() {
+          var input = document.getElementById("search-input").value.toLowerCase();
+          var filteredData = data.filter(function(item) {
+            return item.Date.toLowerCase().includes(input) ||
+              item.Time.toLowerCase().includes(input) ||
+              item.Cycle_s.toLowerCase().includes(input);
+          });
+        
+          // Mengupdate data tabel dan pagination dengan hasil pencarian
+          data = filteredData;
+          currentPage = 1;
+          renderTable();
+          renderPagination();
+          renderChart();
+        }
+
+
+        // Fungsi untuk menggambar tabel dan pagination saat pertama kali halaman dimuat
+        function renderTable() {
+            populateTable();
+            renderPagination();
+        }
+
+        // Fungsi untuk menggambar grafik
+        function renderChart() {
+            var chartData = data.map(function(item) {
+                return item.Cycle_s;
+            });
+
+            var ctx = document.getElementById("chart").getContext("2d");
+
+            if (myChart) {
+                myChart.destroy(); // Menghancurkan instance Chart yang ada sebelumnya
+            }
+
+            myChart = new Chart(ctx, {
+                type: "bar",
+                data: {
+                    labels: Array.from({ length: chartData.length }, function(_, i) { return i + 1; }),
+                    datasets: [{
+                        label: "Cycls (second)",
+                        data: chartData,
+                        backgroundColor: "rgba(75, 192, 192, 0.2)",
+                        borderColor: "rgba(75, 192, 192, 1)",
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+        
+        document.addEventListener('DOMContentLoaded', function () {
+          const darkModeToggle = document.querySelector('#darkModeToggle');
+          const body = document.body;
+    
+          darkModeToggle.addEventListener('change', function () {
+            body.classList.toggle('dark-mode');
+          });
+        });
+    </script>
+</body>
+</html>
